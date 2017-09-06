@@ -1,5 +1,5 @@
-from random import shuffle, randint
 from copy import deepcopy
+from random import shuffle, randint
 
 from homework1 import stable_marriage as sm
 
@@ -7,6 +7,7 @@ from homework1 import stable_marriage as sm
 class Person:
     def __init__(self, name):
         self.preference_list = []
+        # self.preferences_map = {}
         self.name = name
         self.partner = None
 
@@ -40,11 +41,26 @@ class Game:
     @staticmethod
     def set_preferences(men, women, mens_names, womens_names):
         for m, w in zip(men, women):
-            shuffle([womens_names])
-            m.preference_list = deepcopy(womens_names)
-            shuffle([mens_names])
-            w.preference_list = deepcopy(mens_names)
+            shuffle(womens_names)
+            shuffle(mens_names)
+            # for i, (mn, wn) in enumerate(zip(mens_names, womens_names)):
+            #     m.preferences_map[wn] = i
+            #     w.preferences_map[mn] = i
 
-    def gale_shapley(self, men, women):
-        for m, w in zip(men, women):
-            pass
+    @staticmethod
+    def gale_shapley(men):
+        free_men = deepcopy(men)
+        while free_men:
+            m = free_men[0]
+            for w in men.preferences_map:
+                if not w.partner:
+                    m.partner = w
+                    w.partner = m
+                else:
+                    m_rating = w.preferences_map[m.name]
+                    m_prime_rating = w.preferences_map[w.partner.name]
+                    if m_prime_rating < m_rating:
+                        m.partner = w
+                        w.partner = m
+                        free_men.pop(0)
+                        free_men.append(w.partner)
