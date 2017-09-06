@@ -44,3 +44,7 @@ class Game:
             m.preference_list = deepcopy(womens_names)
             shuffle([mens_names])
             w.preference_list = deepcopy(mens_names)
+
+    def gale_shapley(self, men, women):
+        for m, w in zip(men, women):
+            pass
