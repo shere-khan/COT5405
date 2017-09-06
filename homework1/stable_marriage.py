@@ -43,6 +43,8 @@ class Game:
         for m, w in zip(men, women):
             shuffle(womens_names)
             shuffle(mens_names)
+            m.preference_list = deepcopy(mens_names)
+            w.preference_list = deepcopy(womens_names)
             # for i, (mn, wn) in enumerate(zip(mens_names, womens_names)):
             #     m.preferences_map[wn] = i
             #     w.preferences_map[mn] = i
@@ -52,13 +54,14 @@ class Game:
         free_men = deepcopy(men)
         while free_men:
             m = free_men[0]
-            for w in men.preferences_map:
+            while m.preference_list:
+                m.preference_list.pop(0)
                 if not w.partner:
                     m.partner = w
                     w.partner = m
                 else:
-                    m_rating = w.preferences_map[m.name]
-                    m_prime_rating = w.preferences_map[w.partner.name]
+                    m_rating = w.preferences_[m.name]
+                    m_prime_rating = w.preferences_list[w.partner]
                     if m_prime_rating < m_rating:
                         m.partner = w
                         w.partner = m
