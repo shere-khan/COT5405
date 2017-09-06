@@ -55,7 +55,7 @@ class Game:
         while free_men:
             m = free_men[0]
             while m.preference_list:
-                m.preference_list.pop(0)
+                w = m.preference_list.pop(0)
                 if not w.partner:
                     m.partner = w
                     w.partner = m
