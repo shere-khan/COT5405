@@ -1,4 +1,4 @@
-from copy import deepcopy
+from copy import deepcopy, copy
 from random import shuffle, randint
 
 from homework1 import stable_marriage as sm
@@ -7,15 +7,21 @@ from homework1 import stable_marriage as sm
 class Person:
     def __init__(self, name):
         self.preference_list = []
-        # self.preferences_map = {}
+        self.preference_list_copy = []
         self.name = name
         self.partner = None
 
     def __str__(self):
-        return "{0} {1}".format(self.name, self.partner)
+        if self.partner:
+            return "{0} {1}".format(self.name, self.partner.name)
+        else:
+            return "{0} {1}".format(self.name, "None")
 
     def __repr__(self):
-        return "{0} {1}".format(self.name, self.partner)
+        if self.partner:
+            return "{0} {1}".format(self.name, self.partner.name)
+        else:
+            return "{0} {1}".format(self.name, "None")
 
 
 class Man(Person):
@@ -39,31 +45,35 @@ class Game:
             men.append(sm.Man(mens_names.pop(randint(0, len(mens_names) - 1))))
 
     @staticmethod
-    def set_preferences(men, women, mens_names, womens_names):
+    def set_preferences(men, women, size):
+        nums = [i for i in range(size)]
         for m, w in zip(men, women):
-            shuffle(womens_names)
-            shuffle(mens_names)
-            m.preference_list = deepcopy(mens_names)
-            w.preference_list = deepcopy(womens_names)
-            # for i, (mn, wn) in enumerate(zip(mens_names, womens_names)):
-            #     m.preferences_map[wn] = i
-            #     w.preferences_map[mn] = i
+            shuffle(nums)
+            for n in nums:
+                m.preference_list.append(women[n])
+                w.preference_list.append(men[n])
+            m.preference_list_copy = copy(m.preference_list)
+            w.preference_list_copy = copy(w.preference_list)
 
     @staticmethod
     def gale_shapley(men):
-        free_men = deepcopy(men)
-        while free_men:
-            m = free_men[0]
-            while m.preference_list:
+        # choose man not yet married
+        single_men = copy(men)
+        while single_men:
+            m = single_men.pop(0)
+            # choose woman on man's list with highest rating
+            while m.preference_list and not m.partner:
                 w = m.preference_list.pop(0)
                 if not w.partner:
                     m.partner = w
                     w.partner = m
                 else:
-                    m_rating = w.preferences_[m.name]
-                    m_prime_rating = w.preferences_list[w.partner]
-                    if m_prime_rating < m_rating:
+                    proposed_partner_rating = w.preference_list.index(m)
+                    current_partner_rating = w.preference_list.index(w.partner)
+                    # If woman prefers the suggested partner over her current partner,
+                    # then make her partner the suggested partner
+                    if current_partner_rating > proposed_partner_rating:
                         m.partner = w
+                        w.partner.partner = None
+                        single_men.append(w.partner)
                         w.partner = m
-                        free_men.pop(0)
-                        free_men.append(w.partner)
