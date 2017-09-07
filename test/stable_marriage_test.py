@@ -11,18 +11,14 @@ class TestGame(unittest.TestCase):
 
         women = []
         self.men = []
-        sm.Game.create_players(men, women, mens_stack, womens_stack)
-        sm.Game.set_preferences(men, women, SIZE)
+        sm.Game.create_players(self.men, women, mens_stack, womens_stack)
+        sm.Game.set_preferences(self.men, women, SIZE)
 
     def test_gale_shapley_pairs_stable(self):
         sm.Game.gale_shapley(self.men)
         for m in self.men:
-            if m.name != w.partner.name:
-                w_preferred_partner_index = self.men.index(w.partner)
-                w_preferred_partner = self.men[w.partner_index]
-                w_preferred_partner_preference = w_preferred_partner.preference_list[0]
-                if w_preferred_partner_preference.name is w.name:
-                    pass
-
-            for w in m.preference_list:
-                if (m.partner)
+            w = m.partner
+            # Check if woman would rather be with someone else
+            w_preferred_partner = self.men[w.partner_index]
+            w_preferred_partner_preference = w_preferred_partner.preference_list[0]
+            assert w_preferred_partner_preference.name is not w.name
