@@ -39,10 +39,66 @@ class Game:
         pass
 
     @staticmethod
+    def print_info(men, women):
+        # print lists
+        for m in men:
+            print(m, end=' [')
+            for w in m.preference_list_copy:
+                print(w.name, end=", ")
+            print(']')
+
+        print()
+        for w in women:
+            print(w, end=' [')
+            for m in w.preference_list_copy:
+                print(m.name, end=", ")
+            print(']')
+
+    @staticmethod
     def create_players(men, women, mens_names, womens_names):
         while womens_names and mens_names:
             women.append(sm.Woman(womens_names.pop(randint(0, len(womens_names) - 1))))
             men.append(sm.Man(mens_names.pop(randint(0, len(mens_names) - 1))))
+
+    @staticmethod
+    def create_players_hard(men, women, mens_names, womens_names):
+        while womens_names and mens_names:
+            women.append(sm.Woman(womens_names.pop(0)))
+            men.append(sm.Man(mens_names.pop(0)))
+
+    @staticmethod
+    def set_preferences_hard(men, women):
+        woman_t = Woman('t')
+        woman_f = Woman('f')
+        woman_ka = Woman('ka')
+        woman_s = Woman('s')
+        woman_j = Woman('j')
+        woman_ky = Woman('ky')
+        men[0].preference_list = [woman_t, woman_f, woman_ka, woman_s, woman_j, woman_ky]
+        men[0].preference_list_copy = copy(men[0].preference_list)
+        men[1].preference_list = [woman_j, woman_ky, woman_f, woman_ka, woman_s, woman_t]
+        men[1].preference_list_copy = copy(men[1].preference_list)
+        men[2].preference_list = [woman_j, woman_ka, woman_t, woman_s, woman_ky, woman_f]
+        men[2].preference_list_copy = copy(men[2].preference_list)
+        men[3].preference_list = [woman_ky, woman_t, woman_j, woman_s, woman_ka, woman_f]
+        men[3].preference_list_copy = copy(men[3].preference_list)
+        men[4].preference_list = [woman_j, woman_ka, woman_ky, woman_f, woman_s, woman_t]
+        men[4].preference_list_copy = copy(men[4].preference_list)
+        men[5].preference_list = [woman_ky, woman_t, woman_f, woman_ka, woman_s, woman_j]
+        men[5].preference_list_copy = copy(men[5].preference_list)
+
+        women[0].preference_list = [Woman('a'), Woman('j'), Woman('d'), Woman('g'), Woman('t'), Woman('m')]
+        women[0].preference_list_copy = copy(women[0].preference_list)
+        women[1].preference_list = [Woman('t'), Woman('m'), Woman('j'), Woman('d'), Woman('g'), Woman('a')]
+        women[1].preference_list_copy = copy(women[1].preference_list)
+        women[2].preference_list = [Woman('t'), Woman('d'), Woman('a'), Woman('g'), Woman('m'), Woman('j')]
+        women[2].preference_list_copy = copy(women[2].preference_list)
+        women[3].preference_list = [Woman('m'), Woman('a'), Woman('t'), Woman('g'), Woman('d'), Woman('j')]
+        women[3].preference_list_copy = copy(women[3].preference_list)
+        women[4].preference_list = [Woman('t'), Woman('d'), Woman('m'), Woman('j'), Woman('g'), Woman('a')]
+        women[4].preference_list_copy = copy(women[4].preference_list)
+        women[5].preference_list = [Woman('m'), Woman('a'), Woman('j'), Woman('d'), Woman('g'), Woman('t')]
+        women[5].preference_list_copy = copy(women[5].preference_list)
 
     @staticmethod
     def set_preferences(men, women, size):
@@ -64,16 +120,21 @@ class Game:
             # choose woman on man's list with highest rating
             while m.preference_list and not m.partner:
                 w = m.preference_list.pop(0)
+                # w doesn't have a partner
                 if not w.partner:
                     m.partner = w
                     w.partner = m
                 else:
                     proposed_partner_rating = w.preference_list.index(m)
                     current_partner_rating = w.preference_list.index(w.partner)
-                    # If woman prefers the suggested partner over her current partner,
-                    # then make her partner the suggested partner
+                    # If woman prefers m over her current partner,
+                    # then make her partner m
                     if current_partner_rating > proposed_partner_rating:
-                        m.partner = w
-                        w.partner.partner = None
-                        single_men.append(w.partner)
+                        # Set m_primes partner to be none and add him back
+                        # to the list of single men
+                        m_prime = w.partner
+                        m_prime.partner = None
+                        single_men.append(m_prime)
+
                         w.partner = m
+                        m.partner = w
