@@ -1,4 +1,4 @@
-from copy import deepcopy, copy
+from copy import copy
 from random import shuffle, randint
 
 from homework1 import stable_marriage as sm
