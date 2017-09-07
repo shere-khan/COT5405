@@ -87,7 +87,13 @@ class Game:
         men[5].preference_list = [woman_ky, woman_t, woman_f, woman_ka, woman_s, woman_j]
         men[5].preference_list_copy = copy(men[5].preference_list)
 
-        women[0].preference_list = [Woman('a'), Woman('j'), Woman('d'), Woman('g'), Woman('t'), Woman('m')]
+        man_a = Man('a')
+        man_j = Man('j')
+        man_d = Man('d')
+        man_g = Man('g')
+        man_t = Man('t')
+        man_m = Man('m')
+        women[0].preference_list = [man_a, man_j, man_d, man_g, man_t, man_m]
         women[0].preference_list_copy = copy(women[0].preference_list)
         women[1].preference_list = [Woman('t'), Woman('m'), Woman('j'), Woman('d'), Woman('g'), Woman('a')]
         women[1].preference_list_copy = copy(women[1].preference_list)
