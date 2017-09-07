@@ -18,7 +18,16 @@ class TestGame(unittest.TestCase):
         sm.Game.gale_shapley(self.men)
         for m in self.men:
             w = m.partner
-            # Check if woman would rather be with someone else
-            w_preferred_partner = self.men[w.partner_index]
-            w_preferred_partner_preference = w_preferred_partner.preference_list[0]
-            assert w_preferred_partner_preference.name is not w.name
+            # If the current man is not his partner's preferred partner,
+            # then check if her preferred partner would also prefer her
+            w_preferred_partner = w.preference_list_copy[0]
+            if m is not w_preferred_partner:
+                w_preferred_partner_preference = w_preferred_partner.preference_list[0]
+                assert w_preferred_partner_preference.name is not w.name
+
+            # If the mans current partner is not his preferred partner,
+            # then check if man would rather be with someone else
+            preferred_partner = m.preference_list_copy[0]
+            if m.partner is not preferred_partner:
+                pref = preferred_partner.preference_list_copy[0]
+                assert pref.name is not m.name
