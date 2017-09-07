@@ -13,10 +13,10 @@ class TestGame(unittest.TestCase):
 
         self.men = []
         self.women = []
-        # sm.Game.create_players(men, women, mens_stack, womens_stack)
-        # sm.Game.set_preferences(men, women, SIZE)
-        sm.Game.create_players_hard(self.men, self.women, mens_stack, womens_stack)
-        sm.Game.set_preferences_hard(self.men, self.women)
+        sm.Game.create_players(self.men, self.women, mens_stack, womens_stack)
+        sm.Game.set_preferences(self.men, self.women, SIZE)
+        # sm.Game.create_players_hard(self.men, self.women)
+        # sm.Game.set_preferences_hard(self.men, self.women)
         # sm.Game.print_info(men, women)
 
         # SIZE = 6
@@ -40,10 +40,11 @@ class TestGame(unittest.TestCase):
             # then check if her preferred partner would also prefer her
             w_preferred_partner = w.preference_list_copy[0]
             if m is not w_preferred_partner:
-                w_preferred_partner_preference = w_preferred_partner.preference_list[0]
+                w_preferred_partner_preference = w_preferred_partner.preference_list_copy[0]
                 try:
                     assert w_preferred_partner_preference.name is not w.name
                 except AssertionError:
+                    print("m: ", m)
                     print("m.partner: ", m.partner)
                     print("w.preferred_partner: ", w_preferred_partner.name)
                     print("w.preferred_partner_preference: ", w_preferred_partner_preference.name)
@@ -57,6 +58,7 @@ class TestGame(unittest.TestCase):
                 try:
                     assert preferred_partner_preference.name is not m.name
                 except AssertionError:
+                    print("m: ", m)
                     print("m.partner: ", m.partner)
                     print("m.preferred_partner: ", preferred_partner.name)
                     print("m.preferred_partner: ", preferred_partner_preference.name)

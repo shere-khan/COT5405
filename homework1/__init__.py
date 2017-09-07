@@ -13,7 +13,7 @@ if __name__ == '__main__':
     women = []
     # sm.Game.create_players(men, women, mens_stack, womens_stack)
     # sm.Game.set_preferences(men, women, SIZE)
-    sm.Game.create_players_hard(men, women, mens_stack, womens_stack)
+    sm.Game.create_players_hard(men, women)
     sm.Game.set_preferences_hard(men, women)
     # sm.Game.print_info(men, women)
     sm.Game.gale_shapley(men)
