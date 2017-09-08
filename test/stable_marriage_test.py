@@ -8,25 +8,11 @@ class TestGame(unittest.TestCase):
         SIZE = 6
         mens_stack = ['d', 'g', 'a', 'm', 'j', 't']
         womens_stack = ['ka', 's', 't', 'ky', 'f', 'j']
-        # womens_stack = ['suzy', 'katrina', 'felicia', 'jenae', 'kyana']
-        # mens_stack = ['germaine', 'michael', 'andre', 'justin', 'tim']
 
         self.men = []
         self.women = []
         sm.Game.create_players(self.men, self.women, mens_stack, womens_stack)
         sm.Game.set_preferences(self.men, self.women, SIZE)
-        # sm.Game.create_players_hard(self.men, self.women)
-        # sm.Game.set_preferences_hard(self.men, self.women)
-        # sm.Game.print_info(men, women)
-
-        # SIZE = 6
-        # womens_stack = ['suzy', 'katrina', 'felicia', 'jenae', 'kyana', 'tina']
-        # mens_stack = ['germaine', 'michael', 'andre', 'justin', 'tim', 'drake']
-
-        # self.women = []
-        # self.men = []
-        # sm.Game.create_players(self.men, self.women, mens_stack, womens_stack)
-        # sm.Game.set_preferences(self.men, self.women, SIZE)
 
     def test_gale_shapley_pairs_stable(self):
         sm.Game.gale_shapley(self.men)
