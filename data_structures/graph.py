@@ -77,12 +77,15 @@ class GraphData:
             graph.add_node(Node(), new_node)
             while limit < interval_size_lim:
                 neighb_key = random.sample(list(graph.get_adj_dict()), 1)
-                neigb_list = graph.get_adj_dict()[neighb_key]
-                neighb = random.sample(neigb_list, 1)
-                # Check and see if node is the node we just added
+                neighb_list = graph.get_adj_dict()[neighb_key]
+                neighb = random.sample(neighb_list, 1)
+
+                # If neighb is not the node we just added
+                # make it a connection of new_node
                 if neighb is not new_node:
-                    pass
-                limit += 1
-                if limit is interval_size_lim:
-                    break
-            # graph.add_node(Node(), neighbors)
+                    graph.add_connection(new_node, neighb)
+                    limit += 1
+
+                    if limit is interval_size_lim:
+                        break
+            #
