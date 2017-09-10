@@ -97,8 +97,7 @@ class GraphData:
 
     @staticmethod
     def breadth_first_traversal(graph, node, f):
-        # f(node)
-        print(node.get_value())
+        f(node)
         node.discovered = True
         to_visit_queue = [node]
         while to_visit_queue:
@@ -106,7 +105,6 @@ class GraphData:
             neighbors = graph.get_adj_dict()[u]
             for v in neighbors:
                 if v.discovered is False:
-                    # f(node)
-                    print(v.get_value())
+                    f(v)
                     v.discovered = True
                     to_visit_queue.append(v)
