@@ -13,9 +13,25 @@ class Node:
         return self.__value
 
 
+class Edge:
+    def __init__(self):
+        self.__left_node = None
+        self.__right_node = None
+
+    def get_left_node(self):
+        return self.__left_node
+
+    def get_right_node(self):
+        return self.__right_node
+
+
 class UndirectedGraph:
     def __init__(self):
         self.__adj_dict = dict()
+        self.__node_list = list()
+
+    def add_node_to_list(self, node):
+        self.__node_list.append(node)
 
     def get_adj_dict(self):
         return self.__adj_dict
@@ -89,11 +105,11 @@ class GraphData:
                     new_node_neighbor_list = graph.get_adj_dict()[new_node]
                     # If neighb is not the node we just added make it a connection of new_node
                     if neighb is not new_node and neighb not in new_node_neighbor_list:
-                            graph.add_connection(new_node, neighb)
-                            limit += 1
+                        graph.add_connection(new_node, neighb)
+                        limit += 1
 
-                            if limit is interval_size_lim:
-                                break
+                        if limit is interval_size_lim:
+                            break
 
     @staticmethod
     def breadth_first_traversal(graph, node, f):
