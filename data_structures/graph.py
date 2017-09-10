@@ -3,35 +3,27 @@ import random
 
 class Node:
     def __init__(self):
-        self.__value = ""
+        self.__node_id = ""
         self.discovered = False
 
     def set_value(self, value):
-        self.__value = value
+        self.__node_id = value
 
     def get_value(self):
-        return self.__value
-
-
-class Edge:
-    def __init__(self):
-        self.__left_node = None
-        self.__right_node = None
-
-    def get_left_node(self):
-        return self.__left_node
-
-    def get_right_node(self):
-        return self.__right_node
+        return self.__node_id
 
 
 class UndirectedGraph:
     def __init__(self):
         self.__adj_dict = dict()
         self.__node_list = list()
+        self.__edge_list = list()
 
     def add_node_to_list(self, node):
         self.__node_list.append(node)
+
+    def add_edge_to_list(self, edge):
+        self.__edge_list.append(edge)
 
     def get_adj_dict(self):
         return self.__adj_dict
